@@ -1854,7 +1854,7 @@ class MaskRCNN():
         # Image size must be dividable by 2 multiple times
         h, w = config.IMAGE_SHAPE[:2]
         ###
-        input_anchors = None # add - error
+        #input_anchors = None # add - error
         
         if h / 2**6 != int(h / 2**6) or w / 2**6 != int(w / 2**6):
             raise Exception("Image size must be dividable by 2 at least 6 times "
@@ -1867,7 +1867,7 @@ class MaskRCNN():
         input_image_meta = KL.Input(shape=[config.IMAGE_META_SIZE],
                                     name="input_image_meta")
 	
-        if mode == "training":
+        if mode == "training_init": ## error : change 'training' to 'training_init"
             # RPN GT
             input_rpn_match = KL.Input(
                 shape=[None, 1], name="input_rpn_match", dtype=tf.int32)
@@ -1936,7 +1936,7 @@ class MaskRCNN():
         mrcnn_feature_maps = [P2, P3, P4, P5]
 
         # Anchors
-        if mode == "training":
+        if mode == "training_init": ## error - mode
             anchors = self.get_anchors(config.IMAGE_SHAPE)
             # Duplicate across the batch dimension because Keras requires it
             # TODO: can this be optimized to avoid duplicating the anchors?
@@ -1967,7 +1967,9 @@ class MaskRCNN():
         # Generate proposals
         # Proposals are [batch, N, (y1, x1, y2, x2)] in normalized coordinates
         # and zero padded.
-        proposal_count = config.POST_NMS_ROIS_TRAINING if mode == "training"\
+        
+        # error : change below code, 'training' to 'training_init'
+        proposal_count = config.POST_NMS_ROIS_TRAINING if mode == "training_init"\
             else config.POST_NMS_ROIS_INFERENCE
         rpn_rois = ProposalLayer(
             proposal_count=proposal_count,
@@ -1975,7 +1977,7 @@ class MaskRCNN():
             name="ROI",
             config=config)([rpn_class, rpn_bbox, anchors])
 
-        if mode == "training":
+        if mode == "training_init": #error : 'training' -> 'training_init'
             # Class ID mask to mark class IDs supported by the dataset the image
             # came from.
             active_class_ids = KL.Lambda(
@@ -2318,7 +2320,8 @@ class MaskRCNN():
             augmentation. A source is string that identifies a dataset and is
             defined in the Dataset class.
         """
-        assert self.mode == "training", "Create model in training mode."
+        assert self.mode == "training_init", "Create model in training mode."
+        # error : training -> training_init
 
         # Pre-defined layer regular expressions
         layer_regex = {
