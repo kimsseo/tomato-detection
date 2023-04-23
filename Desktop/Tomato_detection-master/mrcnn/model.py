@@ -1834,7 +1834,8 @@ class MaskRCNN():
         config: A Sub-class of the Config class
         model_dir: Directory to save training logs and trained weights
         """
-        assert mode in ['training', 'inference']
+        #assert mode in ['training', 'inference'] # 호환성 문제로 애러 발생 / training_init으로 수정
+        assert mode in ['training_init', 'inference']
         self.mode = mode
         self.config = config
         self.model_dir = model_dir
@@ -1847,7 +1848,8 @@ class MaskRCNN():
             mode: Either "training" or "inference". The inputs and
                 outputs of the model differ accordingly.
         """
-        assert mode in ['training', 'inference']
+        #assert mode in ['training', 'inference'] # 위와 동일 사유로 수정
+        assert mode in ['training_init', 'inference']
 
         # Image size must be dividable by 2 multiple times
         h, w = config.IMAGE_SHAPE[:2]
