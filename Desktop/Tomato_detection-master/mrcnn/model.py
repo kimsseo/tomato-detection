@@ -22,6 +22,7 @@ import keras.backend as K
 import keras.layers as KL
 import keras.engine as KE
 import keras.models as KM
+from keras.layers import Layer # add
 
 from mrcnn import utils
 
@@ -252,7 +253,8 @@ def clip_boxes_graph(boxes, window):
     return clipped
 
 
-class ProposalLayer(KE.Layer):
+#class ProposalLayer(KE.Layer):
+class ProposalLayer(Layer):
     """Receives anchor scores and selects a subset to pass as proposals
     to the second stage. Filtering is done based on anchor scores and
     non-max suppression to remove overlaps. It also applies bounding
