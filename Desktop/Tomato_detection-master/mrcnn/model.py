@@ -1864,8 +1864,6 @@ class MaskRCNN():
         input_image_meta = KL.Input(shape=[config.IMAGE_META_SIZE],
                                     name="input_image_meta")
 	
-	# 아래 코드 add
-	input_anchors = None # error happens, because input anchors defined in block, so other block cannot refer
         if mode == "training":
             # RPN GT
             input_rpn_match = KL.Input(
